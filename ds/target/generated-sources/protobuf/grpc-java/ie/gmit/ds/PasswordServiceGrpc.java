@@ -117,6 +117,9 @@ public final class PasswordServiceGrpc {
   public static abstract class PasswordServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     * Hash sent via param and awaits server response
+     * </pre>
      */
     public void hash(ie.gmit.ds.HashRequest request,
         io.grpc.stub.StreamObserver<ie.gmit.ds.HashResponse> responseObserver) {
@@ -169,6 +172,9 @@ public final class PasswordServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Hash sent via param and awaits server response
+     * </pre>
      */
     public void hash(ie.gmit.ds.HashRequest request,
         io.grpc.stub.StreamObserver<ie.gmit.ds.HashResponse> responseObserver) {
@@ -204,6 +210,9 @@ public final class PasswordServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Hash sent via param and awaits server response
+     * </pre>
      */
     public ie.gmit.ds.HashResponse hash(ie.gmit.ds.HashRequest request) {
       return blockingUnaryCall(
@@ -237,6 +246,9 @@ public final class PasswordServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Hash sent via param and awaits server response
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<ie.gmit.ds.HashResponse> hash(
         ie.gmit.ds.HashRequest request) {
