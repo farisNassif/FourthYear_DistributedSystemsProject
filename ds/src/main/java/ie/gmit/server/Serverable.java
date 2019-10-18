@@ -1,6 +1,6 @@
 package ie.gmit.server;
 
-public interface Serverable {
+public abstract interface Serverable {
 
 	public abstract void stop();
 
