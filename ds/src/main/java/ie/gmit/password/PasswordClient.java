@@ -8,15 +8,15 @@ import ie.gmit.client.Clientable;
 import ie.gmit.ds.HashRequest;
 import ie.gmit.ds.HashResponse;
 import ie.gmit.ds.PasswordServiceGrpc;
+import ie.gmit.outputs.RequiredOutputs;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.StatusRuntimeException;
 
 public class PasswordClient implements Clientable {
 
 	// For testing purposes
 	Scanner scanner = new Scanner(System.in);
-
+	RequiredOutputs output = new RequiredOutputs();
 	private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
 	private final ManagedChannel channel;
 	private final PasswordServiceGrpc.PasswordServiceStub asyncPasswordService;
@@ -48,9 +48,9 @@ public class PasswordClient implements Clientable {
 		// result = asyncPasswordService.hash(h);
 		result = syncPasswordService.hash(h);
 
-		logger.info("*Your ID = " + result.getUserId());
-		logger.info("*Your Password = " + pw);
-		logger.info("*Your password hashcode = " + result.getHashedPassword().hashCode());
+		// The first output required for the project
+		logger.info(output.FirstOutput(result));
+
 		try {
 			shutdown();
 		} catch (InterruptedException e) {
