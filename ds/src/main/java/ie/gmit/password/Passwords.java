@@ -66,6 +66,10 @@ public class Passwords {
 	 *         otherwise
 	 */
 	public static boolean isExpectedPassword(char[] password, byte[] salt, byte[] expectedHash) {
+		// Hardcoding for testing purposes
+		// Hardcoded password => Char array
+		String pwCheck = "farise";
+		char[] pw = pwCheck.toCharArray();
 		byte[] pwdHash = hash(password, salt);
 		return Arrays.equals(pwdHash, expectedHash);
 	}

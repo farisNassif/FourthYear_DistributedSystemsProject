@@ -32,9 +32,9 @@ public class PasswordClient implements Clientable {
 	Scanner scanner = new Scanner(System.in);
 	RequiredOutputs output = new RequiredOutputs();
 	private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
-	private final ManagedChannel channel;
-	private final PasswordServiceGrpc.PasswordServiceStub asyncPasswordService;
-	private final PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
+	private ManagedChannel channel;
+	private PasswordServiceGrpc.PasswordServiceStub asyncPasswordService;
+	private PasswordServiceGrpc.PasswordServiceBlockingStub syncPasswordService;
 
 	public PasswordClient(String host, int port) {
 		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
@@ -42,12 +42,16 @@ public class PasswordClient implements Clientable {
 		asyncPasswordService = PasswordServiceGrpc.newStub(channel);
 	}
 
+	public PasswordClient() {
+		
+	}
+
 	public void shutdown() throws InterruptedException {
 		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
 	/**
-	 * 
+	 * Sequential call of password validation at the end of the method
 	 * 
 	 */
 	public void Login() {
@@ -56,42 +60,27 @@ public class PasswordClient implements Clientable {
 		System.out.print("[Testing Purposes] Enter Password: ");
 		enteredPassword = scanner.next();
 
-		// Hash method taking userId and password
-		HashRequest hashRequest = HashRequest.newBuilder().setUserId(id).setPassword(enteredPassword).build();
-		// The result of the method above
-		HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType();
+		try {
+			// Hash method taking userId and password
+			HashRequest hashRequest = HashRequest.newBuilder().setUserId(id).setPassword(enteredPassword).build();
+			// The result of the method above
+			HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType();
+			
+			result = syncPasswordService.hash(hashRequest);
 
-		// Used for testing with a hardcoded password
-		// HashRequest hardcodeTest =
-		// HashRequest.newBuilder().setUserId(69).setPassword("hardcodedPassword").build();
-		// For testing
-		// HashResponse testResult =
-		// HashResponse.newBuilder().getDefaultInstanceForType();
-		// Testing stuff
-		// testResult = syncPasswordService.hash(hardcodeTest);
-		// hashedPassword = testResult.getHashedPassword();
-		// salt = testResult.getSalt();
-		// testResult = asyncPasswordService.hash(h);
+			hashedPassword = result.getHashedPassword();
+			salt = result.getSalt();
 
-		result = syncPasswordService.hash(hashRequest);
+			// The first part required for the project [Part 1]
+			logger.info(output.FirstOutput(result));
 
-		hashedPassword = result.getHashedPassword();
-		salt = result.getSalt();
+			// The second part required for the project [Part 2]
+			@SuppressWarnings("unused")
+			PasswordValidation validator = new PasswordValidation(result.getHashedPassword(), result.getSalt(),
+					enteredPassword, asyncPasswordService);
 
-		// The first part required for the project [Part 1]
-		logger.info(output.FirstOutput(result));
-
-		// The second part required for the project [Part 2]
-		@SuppressWarnings("unused")
-		PasswordValidation validator = new PasswordValidation(result.getHashedPassword(), result.getSalt(),
-				enteredPassword, asyncPasswordService);
-
-		// Uncomment the line below and comment the line above to compare your entered
-		// password with the hardcoded
-		// password "MyPassword". Should return False.
-		// PasswordValidation validatorHardcoded = new
-		// PasswordValidation(testResult.getHashedPassword(), testResult.getSalt(),
-		// enteredPassword,asyncPasswordService);
+		} catch (RuntimeException runtimeException){
+			logger.info(runtimeException.getLocalizedMessage());
+		}
 	}
-
 }
