@@ -20,14 +20,13 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 	@Override
 	public void hash(HashRequest request, StreamObserver<HashResponse> responseObserver) {
 
-		String getPassword = request.getPassword();
 		// Delegation call to Hasher
-		char[] actualPassword = hasher.actualPassword(getPassword);
+		char[] actualPassword = hasher.actualPassword(request.getPassword());
 		byte[] salt = hasher.salt(request);
-		byte[] hashedPassword = hasher.hashedPassword(actualPassword, salt);
+		byte[] passwordHash = hasher.hashedPassword(actualPassword, salt);
 
 		// Bytestrings are required params of .setHashedPassword and .setSalt
-		ByteString hashedPasswordByteString = ByteString.copyFrom(hashedPassword);
+		ByteString hashedPasswordByteString = ByteString.copyFrom(passwordHash);
 		ByteString saltByteString = ByteString.copyFrom(salt);
 		// Invoke hashing methods and pass the appropriate ByteStrings
 		responseObserver.onNext(HashResponse.newBuilder().setUserId(request.getUserId())
@@ -38,16 +37,17 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 	
 	/**
 	 * Override the validate function from PasswordServiceGrpc
+	 * Had to set params like that otherwise I got spammed with errors
 	 * 
 	 */
 	@Override
-	public void validate(ie.gmit.ds.ValidatorRequest request,
+	public void validate(ie.gmit.ds.ValidateRequest request,
 			io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue> responseObserver) {
 		try
 		{
+			// Populating 
 			ByteString hashedPasswordByteArray = request.getHashedPassword();
 			ByteString hashedSalt = request.getSalt();
-
 			String getPassword = request.getPassword();
 			
 			char[] actualPassword = getPassword.toCharArray();
@@ -65,6 +65,7 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 				responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
 			}
 		}
+		// Exceptions
 		catch(RuntimeException ex)
 		{
 			responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());

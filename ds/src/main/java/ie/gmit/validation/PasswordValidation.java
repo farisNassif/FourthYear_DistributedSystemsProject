@@ -4,7 +4,7 @@ import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
 
 import ie.gmit.ds.PasswordServiceGrpc.PasswordServiceStub;
-import ie.gmit.ds.ValidatorRequest;
+import ie.gmit.ds.ValidateRequest;
 import ie.gmit.outputs.RequiredOutputs;
 import io.grpc.stub.StreamObserver;
 
@@ -39,7 +39,7 @@ public class PasswordValidation {
 			}
 		};
 		asyncPasswordService.validate(
-				ValidatorRequest.newBuilder().setPassword(pw).setHashedPassword(passwordHash).setSalt(salt).build(),
+				ValidateRequest.newBuilder().setPassword(pw).setHashedPassword(passwordHash).setSalt(salt).build(),
 				responseObserver);
 	}
 }

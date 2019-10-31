@@ -13,6 +13,10 @@ public interface HashResponseOrBuilder extends
   int getUserId();
 
   /**
+   * <pre>
+   * String hashedpassword = 2;
+   * </pre>
+   *
    * <code>bytes hashedPassword = 2;</code>
    */
   com.google.protobuf.ByteString getHashedPassword();

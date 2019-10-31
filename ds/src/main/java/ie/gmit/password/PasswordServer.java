@@ -2,10 +2,10 @@ package ie.gmit.password;
 
 import java.util.logging.Logger;
 
-import ie.gmit.server.Serverable;
+import ie.gmit.interfaces.Serverable;
+import ie.gmit.runners.ServerRunner;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import runners.ServerRunner;
 
 /**
  * Body for the ServerRunner. Extends {@link ServerRunner} implements

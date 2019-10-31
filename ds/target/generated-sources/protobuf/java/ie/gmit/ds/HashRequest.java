@@ -4,6 +4,10 @@
 package ie.gmit.ds;
 
 /**
+ * <pre>
+ * HashRequest 
+ * </pre>
+ *
  * Protobuf type {@code ie.gmit.ds.HashRequest}
  */
 public  final class HashRequest extends
@@ -301,6 +305,10 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
+   * <pre>
+   * HashRequest 
+   * </pre>
+   *
    * Protobuf type {@code ie.gmit.ds.HashRequest}
    */
   public static final class Builder extends

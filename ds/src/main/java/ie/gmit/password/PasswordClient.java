@@ -4,13 +4,13 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import com.google.protobuf.ByteString;
-import ie.gmit.client.Clientable;
+
 import ie.gmit.ds.HashRequest;
 import ie.gmit.ds.HashResponse;
 import ie.gmit.ds.PasswordServiceGrpc;
 import ie.gmit.outputs.RequiredOutputs;
-import ie.gmit.server.Serverable;
 import ie.gmit.validation.PasswordValidation;
+import ie.gmit.interfaces.Clientable;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -26,7 +26,7 @@ import io.grpc.ManagedChannelBuilder;
 public class PasswordClient implements Clientable {
 	private ByteString hashedPassword;
 	private ByteString salt;
-	private int id;
+	private int id = -1;
 	private String enteredPassword;
 
 	Scanner scanner = new Scanner(System.in);
@@ -57,6 +57,13 @@ public class PasswordClient implements Clientable {
 	public void Login() {
 		System.out.print("[Testing Purposes] Enter ID: ");
 		id = scanner.nextInt();
+		
+		while (id <= 0)
+		{	
+			System.out.print("[Testing Purposes] ID must be greater than 0: ");
+			id = scanner.nextInt();
+		}
+		
 		System.out.print("[Testing Purposes] Enter Password: ");
 		enteredPassword = scanner.next();
 

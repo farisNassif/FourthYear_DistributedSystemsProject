@@ -4,6 +4,10 @@
 package ie.gmit.ds;
 
 /**
+ * <pre>
+ * HashResponse
+ * </pre>
+ *
  * Protobuf type {@code ie.gmit.ds.HashResponse}
  */
 public  final class HashResponse extends
@@ -109,6 +113,10 @@ private static final long serialVersionUID = 0L;
   public static final int HASHEDPASSWORD_FIELD_NUMBER = 2;
   private com.google.protobuf.ByteString hashedPassword_;
   /**
+   * <pre>
+   * String hashedpassword = 2;
+   * </pre>
+   *
    * <code>bytes hashedPassword = 2;</code>
    */
   public com.google.protobuf.ByteString getHashedPassword() {
@@ -302,6 +310,10 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
+   * <pre>
+   * HashResponse
+   * </pre>
+   *
    * Protobuf type {@code ie.gmit.ds.HashResponse}
    */
   public static final class Builder extends
@@ -488,12 +500,20 @@ private static final long serialVersionUID = 0L;
 
     private com.google.protobuf.ByteString hashedPassword_ = com.google.protobuf.ByteString.EMPTY;
     /**
+     * <pre>
+     * String hashedpassword = 2;
+     * </pre>
+     *
      * <code>bytes hashedPassword = 2;</code>
      */
     public com.google.protobuf.ByteString getHashedPassword() {
       return hashedPassword_;
     }
     /**
+     * <pre>
+     * String hashedpassword = 2;
+     * </pre>
+     *
      * <code>bytes hashedPassword = 2;</code>
      */
     public Builder setHashedPassword(com.google.protobuf.ByteString value) {
@@ -506,6 +526,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * String hashedpassword = 2;
+     * </pre>
+     *
      * <code>bytes hashedPassword = 2;</code>
      */
     public Builder clearHashedPassword() {

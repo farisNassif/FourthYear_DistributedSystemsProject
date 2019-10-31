@@ -16,6 +16,9 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
+ * <pre>
+ * Service Definition
+ * </pre>
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.23.0)",
@@ -58,27 +61,27 @@ public final class PasswordServiceGrpc {
     return getHashMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<ie.gmit.ds.ValidatorRequest,
+  private static volatile io.grpc.MethodDescriptor<ie.gmit.ds.ValidateRequest,
       com.google.protobuf.BoolValue> getValidateMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "validate",
-      requestType = ie.gmit.ds.ValidatorRequest.class,
+      requestType = ie.gmit.ds.ValidateRequest.class,
       responseType = com.google.protobuf.BoolValue.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<ie.gmit.ds.ValidatorRequest,
+  public static io.grpc.MethodDescriptor<ie.gmit.ds.ValidateRequest,
       com.google.protobuf.BoolValue> getValidateMethod() {
-    io.grpc.MethodDescriptor<ie.gmit.ds.ValidatorRequest, com.google.protobuf.BoolValue> getValidateMethod;
+    io.grpc.MethodDescriptor<ie.gmit.ds.ValidateRequest, com.google.protobuf.BoolValue> getValidateMethod;
     if ((getValidateMethod = PasswordServiceGrpc.getValidateMethod) == null) {
       synchronized (PasswordServiceGrpc.class) {
         if ((getValidateMethod = PasswordServiceGrpc.getValidateMethod) == null) {
           PasswordServiceGrpc.getValidateMethod = getValidateMethod =
-              io.grpc.MethodDescriptor.<ie.gmit.ds.ValidatorRequest, com.google.protobuf.BoolValue>newBuilder()
+              io.grpc.MethodDescriptor.<ie.gmit.ds.ValidateRequest, com.google.protobuf.BoolValue>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "validate"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  ie.gmit.ds.ValidatorRequest.getDefaultInstance()))
+                  ie.gmit.ds.ValidateRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.google.protobuf.BoolValue.getDefaultInstance()))
               .setSchemaDescriptor(new PasswordServiceMethodDescriptorSupplier("validate"))
@@ -113,6 +116,9 @@ public final class PasswordServiceGrpc {
   }
 
   /**
+   * <pre>
+   * Service Definition
+   * </pre>
    */
   public static abstract class PasswordServiceImplBase implements io.grpc.BindableService {
 
@@ -128,7 +134,7 @@ public final class PasswordServiceGrpc {
 
     /**
      */
-    public void validate(ie.gmit.ds.ValidatorRequest request,
+    public void validate(ie.gmit.ds.ValidateRequest request,
         io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue> responseObserver) {
       asyncUnimplementedUnaryCall(getValidateMethod(), responseObserver);
     }
@@ -146,7 +152,7 @@ public final class PasswordServiceGrpc {
             getValidateMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                ie.gmit.ds.ValidatorRequest,
+                ie.gmit.ds.ValidateRequest,
                 com.google.protobuf.BoolValue>(
                   this, METHODID_VALIDATE)))
           .build();
@@ -154,6 +160,9 @@ public final class PasswordServiceGrpc {
   }
 
   /**
+   * <pre>
+   * Service Definition
+   * </pre>
    */
   public static final class PasswordServiceStub extends io.grpc.stub.AbstractStub<PasswordServiceStub> {
     private PasswordServiceStub(io.grpc.Channel channel) {
@@ -184,7 +193,7 @@ public final class PasswordServiceGrpc {
 
     /**
      */
-    public void validate(ie.gmit.ds.ValidatorRequest request,
+    public void validate(ie.gmit.ds.ValidateRequest request,
         io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getValidateMethod(), getCallOptions()), request, responseObserver);
@@ -192,6 +201,9 @@ public final class PasswordServiceGrpc {
   }
 
   /**
+   * <pre>
+   * Service Definition
+   * </pre>
    */
   public static final class PasswordServiceBlockingStub extends io.grpc.stub.AbstractStub<PasswordServiceBlockingStub> {
     private PasswordServiceBlockingStub(io.grpc.Channel channel) {
@@ -221,13 +233,16 @@ public final class PasswordServiceGrpc {
 
     /**
      */
-    public com.google.protobuf.BoolValue validate(ie.gmit.ds.ValidatorRequest request) {
+    public com.google.protobuf.BoolValue validate(ie.gmit.ds.ValidateRequest request) {
       return blockingUnaryCall(
           getChannel(), getValidateMethod(), getCallOptions(), request);
     }
   }
 
   /**
+   * <pre>
+   * Service Definition
+   * </pre>
    */
   public static final class PasswordServiceFutureStub extends io.grpc.stub.AbstractStub<PasswordServiceFutureStub> {
     private PasswordServiceFutureStub(io.grpc.Channel channel) {
@@ -259,7 +274,7 @@ public final class PasswordServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.BoolValue> validate(
-        ie.gmit.ds.ValidatorRequest request) {
+        ie.gmit.ds.ValidateRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getValidateMethod(), getCallOptions()), request);
     }
@@ -290,7 +305,7 @@ public final class PasswordServiceGrpc {
               (io.grpc.stub.StreamObserver<ie.gmit.ds.HashResponse>) responseObserver);
           break;
         case METHODID_VALIDATE:
-          serviceImpl.validate((ie.gmit.ds.ValidatorRequest) request,
+          serviceImpl.validate((ie.gmit.ds.ValidateRequest) request,
               (io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue>) responseObserver);
           break;
         default:
