@@ -1,5 +1,7 @@
 package ie.gmit.part_two;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +10,7 @@ public class User {
 	private String password;
 	@NotBlank
 	private String email;
-	@NotBlank
+	@NotNull
 	private int id;
 	@NotBlank
 	private String name;
