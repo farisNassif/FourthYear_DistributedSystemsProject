@@ -9,11 +9,11 @@ public class UserLogin {
 	@NotBlank
 	private int id;
 	@NotBlank
-	private String name;
+	private String password;
 	
-	public UserLogin(int id, String name) {
+	public UserLogin(int id, String password) {
 		this.id = id;
-		this.name = name;
+		this.password = password;
 	}
 
 	// Deserialization
@@ -26,7 +26,7 @@ public class UserLogin {
 	}
 
 	@JsonProperty
-	public String getName() {
-		return name;
+	public String getPassword() {
+		return password;
 	}
 }

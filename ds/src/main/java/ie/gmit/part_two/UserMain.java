@@ -13,5 +13,7 @@ public class UserMain extends Application<UserConfiguration> {
 		final UserAPI resource = new UserAPI();
 
 		environment.jersey().register(resource);
+		
+		// Add the health check at some point 
 	}
 }

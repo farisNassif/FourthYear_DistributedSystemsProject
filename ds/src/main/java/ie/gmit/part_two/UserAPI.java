@@ -24,12 +24,14 @@ public class UserAPI {
     	userMap.put(plsWork.getId(), plsWork);
     }
 	
+    // Gets current users
 	@GET
 	public List<User> getUsers() {
 
 		return new ArrayList<User>(userMap.values());
 	}
 	
+	// Adds new user
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User newUser) {
@@ -38,4 +40,24 @@ public class UserAPI {
         String r = "user id: " + newUser.getId();
         return Response.status(201).entity(r).build();
     }
+    
+    // Existing user login
+	@Path("/login")
+	@POST
+	public Response login(UserLogin login)
+	{
+		  // Pretty long winded, but it does the job for testing at least
+		  // Basically if the {ID, Password} I post via postman matches what's in the hashmap "log" the person in
+		  if((userMap.get(login.getId()) != null) && (userMap.get(login.getId()).getPassword().equals(login.getPassword())))
+		  {
+		        String r = "Login Successful, welcome user with ID: " + login.getId();
+		        return Response.status(201).entity(r).build();
+		  }
+		  // Otherwise not successful
+		  else
+		  {
+		        String r = "Login not Successful!! lmao";
+		        return Response.status(201).entity(r).build();
+		  }
+	}
 }

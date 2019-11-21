@@ -11,11 +11,11 @@ import ie.gmit.password.PasswordClient;
  */
 public class ClientRunner {
 
-	public static void main(String[] args) throws Exception {
-    	@SuppressWarnings("resource")
+	public static void ClientRun() throws InterruptedException {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-    	System.out.print("Enter port number: ");
-    	int port = scanner.nextInt();
+		System.out.print("Enter port number: ");
+		int port = scanner.nextInt();
 		PasswordClient client = new PasswordClient("localhost", port);
 		try {
 			System.out.println("Connection to Server established ...");
