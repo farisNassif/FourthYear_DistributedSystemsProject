@@ -33,8 +33,6 @@ public class UserAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User newUser) {
-
-        //System.out.println("NEW" + newUser.getUserId());
         userMap.put(newUser.getId(), newUser);
 
         String r = "user id: " + newUser.getId();
