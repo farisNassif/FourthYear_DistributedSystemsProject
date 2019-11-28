@@ -32,14 +32,13 @@ public class UserAPI {
 	@GET
 	@Path("users/{id}")
 	public Response getUser(@PathParam("id") int id) {
-		// If user doesn't exist send a 404
-		if (UserDatabase.findUser(id).equals(null)) {
+		if (UserDatabase.findUser(id) == null) {
 			return Response.status(404).type(MediaType.APPLICATION_JSON).entity("User Doesn't Exist! :(").build();
 		}
-		// Otherwise send the User back
 		else {
 			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(UserDatabase.findUser(id)).build();
 		}
+		// return Response.ok(UserDatabase.findUser(id)).build();
 	}
 
 	// Adds new User

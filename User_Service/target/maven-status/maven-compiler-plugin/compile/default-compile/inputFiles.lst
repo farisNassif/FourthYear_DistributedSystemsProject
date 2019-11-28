@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserMain.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserAPI.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserHealthCheck.java
@@ -6,14 +5,3 @@ C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\mai
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserConfiguration.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\User.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserDatabase.java
-=======
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\src\main\java\ie\gmit\ds\App.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\HashResponse.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\ValidatorRequest.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\HashResponseOrBuilder.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\HashRequestOrBuilder.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\PasswordServiceOuterClass.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\ValidatorRequestOrBuilder.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\java\ie\gmit\ds\HashRequest.java
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\ds\target\generated-sources\protobuf\grpc-java\ie\gmit\ds\PasswordServiceGrpc.java
->>>>>>> 0fd432959d7349dc52dd2332f04065a1c054816d
