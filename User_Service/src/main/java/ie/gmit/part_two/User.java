@@ -13,7 +13,7 @@ public class User {
 	@NotBlank
 	private String password;
 	@NotBlank
-	@Pattern(regexp = ".+@.+\\.[a-z].+\\.com")
+	// @Pattern(regexp = ".+@.+\\.[a-z].+\\.com")
 	private String email;
 	@NotNull
 	private int id;

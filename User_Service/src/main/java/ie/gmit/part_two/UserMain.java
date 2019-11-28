@@ -13,7 +13,7 @@ public class UserMain extends Application<UserConfiguration> {
 		final UserAPI resource = new UserAPI();		
 		environment.jersey().register(resource); 
 		
-		//final UserHealthCheck healthCheck = new UserHealthCheck();	
-		//environment.healthChecks().register("i_hate_java_sometimes", healthCheck);
+		final UserHealthCheck healthCheck = new UserHealthCheck();	
+		environment.healthChecks().register("i_hate_java_sometimes", healthCheck);
 	}
 }
