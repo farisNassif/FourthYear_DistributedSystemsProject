@@ -36,11 +36,23 @@ public class UserDatabase {
 
 	// Updates a single User
 	public static void updateUser(int id, User user) {
-		userMap.put(id, user);
+		removeUser(id);
+		addUser(id, user);
+		// userMap.put(id, user);
 	}
 
 	// Removes a single User
 	public static void removeUser(int id) {
 		userMap.remove(id);
+	}
+
+	// Checks for a duplicate User
+	public static boolean checkForUser(int id) {
+		// If there's no User return false
+		if (findUser(id) == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

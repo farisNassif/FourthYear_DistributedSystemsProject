@@ -1,9 +1,0 @@
-eclipse.preferences.version=1
-encoding//src/main/java=UTF-8
-<<<<<<< HEAD
-=======
-encoding//src/main/proto=UTF-8
-encoding//target/generated-sources/protobuf/grpc-java=UTF-8
-encoding//target/generated-sources/protobuf/java=UTF-8
->>>>>>> 0fd432959d7349dc52dd2332f04065a1c054816d
-encoding/<project>=UTF-8
