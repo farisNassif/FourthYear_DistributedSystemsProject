@@ -1,7 +1,13 @@
-C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserMain.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\RequiredOutputs.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserAPI.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserHealthCheck.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserLogin.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\PasswordServiceImpl.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\Hasher.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\PasswordValidation.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserMain.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\PasswordClient.java
+C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\password_client\Passwords.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserConfiguration.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\User.java
 C:\College Work\Year4\SemesterOne\DistributedSystemsProject\User_Service\src\main\java\ie\gmit\part_two\UserDatabase.java

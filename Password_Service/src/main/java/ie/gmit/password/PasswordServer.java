@@ -2,7 +2,6 @@ package ie.gmit.password;
 
 import java.util.logging.Logger;
 
-import ie.gmit.interfaces.Serverable;
 import ie.gmit.runners.ServerRunner;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -13,7 +12,7 @@ import io.grpc.ServerBuilder;
  * 
  * @author Faris Nassif
  */
-public class PasswordServer extends ServerRunner implements Serverable {
+public class PasswordServer extends ServerRunner {
 	private Server grpcServer;
 	private static final Logger logger = Logger.getLogger(PasswordServer.class.getName());
 	// private static final int PORT = 50000;
@@ -22,7 +21,6 @@ public class PasswordServer extends ServerRunner implements Serverable {
 	 * Starts the Server on the defined port
 	 * 
 	 */
-	@Override
 	public void start(int port) throws Throwable {
 		grpcServer = ServerBuilder.forPort(port).addService(new PasswordServiceImpl()).build().start();
 		logger.info("Server started, listening on " + port);
@@ -32,7 +30,6 @@ public class PasswordServer extends ServerRunner implements Serverable {
 	 * Stops the Server
 	 * 
 	 */
-	@Override
 	public void stop() {
 		if (grpcServer != null) {
 			grpcServer.shutdown();

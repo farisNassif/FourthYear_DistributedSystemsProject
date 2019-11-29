@@ -1,8 +1,5 @@
 package ie.gmit.part_two;
 
-import java.util.HashMap;
-import java.util.Set;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,9 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import io.dropwizard.validation.ConstraintViolations;
+import password_client.PasswordClient;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 @Path("/")
@@ -25,9 +21,10 @@ import javax.validation.Validator;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserAPI {
 
-	private String HOST = "localhost";
-	private int PORT = 9001;
+	private int PORT = 50000;
 	private Validator validator;
+
+	PasswordClient client = new PasswordClient("localhost", PORT);
 
 	// Returns all Users in the 'database'
 	@GET
@@ -64,9 +61,17 @@ public class UserAPI {
 	@Path("/users")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(User newUser) {
-		UserDatabase.addUser(newUser.getId(), newUser);
-		return Response.status(Status.CREATED)
-				.entity("User " + newUser.getName() + " with ID " + newUser.getId() + " Added Successfuly.").build();
+		// If theres not already a User with that ID
+		if (UserDatabase.findUser(newUser.getId()) == null) {
+			client.Generation(newUser);
+			// UserDatabase.addUser(newUser.getId(), newUser);
+			return Response.status(Status.CREATED).entity("User " + newUser.getName() + " with ID " + newUser.getId()
+					+ " Added Successfuly. (Hash & Salt Logged in the console)").build();
+		} else {
+			return Response.status(Status.CONFLICT).type(MediaType.APPLICATION_JSON)
+					.entity("Rejected! Theres already a User with that ID!").build();
+		}
+
 	}
 
 	// Delete a User by ID
@@ -101,7 +106,7 @@ public class UserAPI {
 					.entity("There's no User with an ID of " + id + " :(").build();
 		}
 		// My attempt to try and address the issue described above the method
-		// Seems to do the job based on my minimal testing
+		// Seems to do the job based on my semi-minimal testing
 		else if (UserDatabase.checkForUser(updatedUser.getId()) == true) {
 			return Response.status(Status.CONFLICT).type(MediaType.APPLICATION_JSON).entity(
 					"There is already a User with an ID of " + updatedUser.getId() + ". There can't be duplicate ID's.")
@@ -115,21 +120,29 @@ public class UserAPI {
 	}
 
 	// Existing User Login
+	// With Posting it may need to be done twice to get it to work properly due to
+	// how I have the Bool working in PasswordClient. It works though I promise.
 	@Path("/login")
 	@POST
 	public Response login(UserLogin login) {
-		// Pretty long winded, but it does the job for testing at least
-		// Basically if the {ID, Password} I post via postman matches what's in the
-		// hashmap "log" the person in. TODO - Password service impl
-		if ((UserDatabase.findUser(login.getId()) != null)
-				&& (UserDatabase.findUser(login.getId()).getPassword().equals(login.getPassword()))) {
-			String r = "Login Successful, welcome user with ID: " + login.getId();
-			return Response.status(Status.OK).entity(r).build();
-		}
-		// Otherwise not successful, send a 400 request
-		else {
-			String r = "Login not Successful!! lmao";
-			return Response.status(Status.BAD_REQUEST).entity(r).build();
+		// If a User with the ID POSTed actually exists
+		if (UserDatabase.findUser(login.getId()) != null) {
+			// Validate the ID matches the Password
+			if (client.PasswordValidation(UserDatabase.findUser(login.getId()).getHash(),
+					UserDatabase.findUser(login.getId()).getSalt(), login)) {
+				return Response.status(Status.OK).type(MediaType.APPLICATION_JSON)
+						.entity("Login Successful. Welcome User! " + login.getId()
+								+ " (Sometimes you need to send the request twice for it to actually work)")
+						.build();
+			} else {
+				return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_JSON)
+						.entity("Password and ID don't match! :(").build();
+			}
+			// If the User doesn't exist
+		} else {
+			return Response.status(Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON).entity(
+					"Bad Request :( User probably doens't exist! (Sometimes you need to send the request twice for it to actually work)")
+					.build();
 		}
 	}
 }

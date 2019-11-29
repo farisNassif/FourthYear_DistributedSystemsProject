@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.protobuf.ByteString;
 
 // Refs
 // https://www.dropwizard.io/en/stable/getting-started.html
@@ -19,12 +20,16 @@ public class User {
 	private int id;
 	@NotBlank
 	private String name;
+	private ByteString passwordHashed;
+	private ByteString salt;
 
-	public User(int id, String name, String email, String password) {
+	public User(int id, String name, String email, String password, ByteString passwordHashed, ByteString salt) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.passwordHashed = passwordHashed;
+		this.salt = salt;
 	}
 
 	// Deserialization
@@ -51,6 +56,16 @@ public class User {
 	@JsonProperty
 	public String getName() {
 		return name;
+	}
+
+	@JsonProperty
+	public ByteString getHash() {
+		return passwordHashed;
+	}
+
+	@JsonProperty
+	public ByteString getSalt() {
+		return salt;
 	}
 
 }
