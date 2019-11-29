@@ -2,6 +2,7 @@ package password_client;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Map.Entry;
@@ -16,18 +17,17 @@ import ie.gmit.part_two.User;
 import ie.gmit.part_two.UserDatabase;
 import ie.gmit.part_two.UserLogin;
 import ie.gmit.part_two.ValidateRequest;
-import ie.gmit.part_two.PasswordServiceGrpc.PasswordServiceStub;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 /**
- * Passwords and Password hashing are handled through this class. The class is
- * also home to the method {@link #Login()} which runs the program and is called
- * from {@link ClientRunner#main()} <br>
+ * Passwords and Password hashing are handled through this class. The class
+ * contains the method {@link #Generation()} and
+ * {@link #PasswordValidation(String, String, UserLogin)} <br>
  * <br>
- * Implements {@link Clientable}
  * 
  * @author Faris Nassif
  */
@@ -36,10 +36,9 @@ public class PasswordClient {
 	RequiredOutputs output = new RequiredOutputs();
 
 	private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
-	// Result for Validation (Change this from static!)
+	// Result for Validation. This is really bad but it's just for testing (TODO
+	// Change this from static!)
 	static boolean res;
-	private String pwHash;
-	private String salt;
 
 	private ManagedChannel channel;
 	private PasswordServiceGrpc.PasswordServiceStub asyncPasswordService;
@@ -67,15 +66,14 @@ public class PasswordClient {
 				// Adding a new user with the hashedPW and Salt as additional attributes
 				// Issues with UTF-8, had to convert charset to iso-8859-1
 				// https://stackoverflow.com/questions/655891/converting-utf-8-to-iso-8859-1-in-java-how-to-keep-it-as-single-byte
-				User user;
 				try {
-					user = new User(userv.getId(), userv.getName(), userv.getEmail(), userv.getPassword(),
+					User user;
+					user = new User(userv.getId(), userv.getName(), userv.getEmail(), 
 							value.getHashedPassword().toString("ISO-8859-1"), value.getSalt().toString("ISO-8859-1"));
 
 					// Adding it to the Database (hashmap)
 					UserDatabase.addUser(userv.getId(), user);
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -91,13 +89,17 @@ public class PasswordClient {
 
 			@Override
 			public void onError(Throwable t) {
-				// TODO Auto-generated method stub
-
+				// logger.log(Level.WARNING, "RPC Error: {0}", t);
 			}
 
 			@Override
 			public void onCompleted() {
-				// TODO Auto-generated method stub
+			//	logger.info("Finished");
+			//	try {
+			//		shutdown();
+			//	} catch (InterruptedException e) {
+			//		e.printStackTrace();
+			//	}
 			}
 
 		};
@@ -115,12 +117,13 @@ public class PasswordClient {
 		// Just a class for outputting within the onNext() method
 		final RequiredOutputs output = new RequiredOutputs();
 
-		ByteString saltBs = null;
-		ByteString hashBs = null;
+		// Need initialization on these
+		ByteString saltByteString = null;
+		ByteString hashByteString = null;
 		try {
 			// Have to keep the same chartype from Generation()
-			saltBs = ByteString.copyFrom(salt.getBytes("ISO-8859-1"));
-			hashBs = ByteString.copyFrom(passwordHash.getBytes("ISO-8859-1"));
+			saltByteString = ByteString.copyFrom(salt.getBytes("ISO-8859-1"));
+			hashByteString = ByteString.copyFrom(passwordHash.getBytes("ISO-8859-1"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,7 +152,7 @@ public class PasswordClient {
 			}
 		};
 		asyncPasswordService.validate(ValidateRequest.newBuilder().setPassword(user.getPassword())
-				.setHashedPassword(hashBs).setSalt(saltBs).build(), responseObserver);
+				.setHashedPassword(hashByteString).setSalt(saltByteString).build(), responseObserver);
 		return res;
 	}
 }

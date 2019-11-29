@@ -138,7 +138,7 @@ public class UserAPI {
 						.build();
 			} else {
 				return Response.status(Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON)
-						.entity("Password and ID don't match! :(").build();
+						.entity("Password and ID don't match! :( (Sometimes you need to send the request twice for it to actually work)").build();
 			}
 			// If the User doesn't exist
 		} else {

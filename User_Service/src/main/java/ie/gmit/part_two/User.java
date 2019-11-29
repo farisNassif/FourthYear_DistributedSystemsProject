@@ -1,13 +1,10 @@
 package ie.gmit.part_two;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.protobuf.ByteString;
 
-// Refs
 // https://www.dropwizard.io/en/stable/getting-started.html
 // https://stackoverflow.com/questions/38153880/dropwizard-custom-validation-annotation-not-working
 public class User {
@@ -23,11 +20,11 @@ public class User {
 	private String passwordHashed;
 	private String salt;
 
-	public User(int id, String name, String email, String password, String passwordHashed, String salt) {
+	public User(int id, String name, String email, String passwordHashed, String salt) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
+		// this.password = password;
 		this.passwordHashed = passwordHashed;
 		this.salt = salt;
 	}
