@@ -3,6 +3,7 @@ package ie.gmit.part_two;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// Handles CRUD
 public class UserDatabase {
 	private static HashMap<Integer, User> userMap = new HashMap<Integer, User>();
 

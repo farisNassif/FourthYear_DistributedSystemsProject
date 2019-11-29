@@ -24,7 +24,6 @@ import javax.validation.Validator;
 public class UserAPI {
 
 	private int PORT = 50000;
-	private Validator validator;
 
 	PasswordClient client = new PasswordClient("localhost", PORT);
 
@@ -32,7 +31,13 @@ public class UserAPI {
 	@GET
 	@Path("/users")
 	public Response getUsers() {
-		return Response.ok(UserDatabase.findUsers()).build();
+		if (UserDatabase.findUsers().isEmpty()) {
+			// https://stackoverflow.com/questions/11746894/what-is-the-proper-rest-response-code-for-a-valid-request-but-an-empty-data
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_JSON)
+					.entity("No Users found within the Database!").build();
+		} else {
+			return Response.ok(UserDatabase.findUsers()).build();
+		}
 	}
 
 	// Returns a Single User.
@@ -73,7 +78,6 @@ public class UserAPI {
 			return Response.status(Status.CONFLICT).type(MediaType.APPLICATION_JSON)
 					.entity("Rejected! Theres already a User with that ID!").build();
 		}
-
 	}
 
 	// Delete a User by ID
@@ -109,7 +113,18 @@ public class UserAPI {
 		}
 		// Attempt to try and address the issue described above the method
 		// Seems to do the job based on my semi-minimal testing
+
+		// Basically if there exists a user with the posted new ID
 		else if (UserDatabase.checkForUser(updatedUser.getId()) == true) {
+
+			// Then check to see if the ID was unchanged (User may just be editing email and
+			// keeping ID the same)
+			if (UserDatabase.findUser(id).getId() == updatedUser.getId()) {
+				UserDatabase.updateUser(id, updatedUser);
+				// Proceed to send a 200 request and update the User
+				return Response.status(Status.OK).type(MediaType.APPLICATION_JSON)
+						.entity("User with ID " + id + " Successfuly Updated!").build();
+			}
 			return Response.status(Status.CONFLICT).type(MediaType.APPLICATION_JSON).entity(
 					"There is already a User with an ID of " + updatedUser.getId() + ". There can't be duplicate ID's.")
 					.build();
@@ -133,17 +148,18 @@ public class UserAPI {
 			if (client.PasswordValidation(UserDatabase.findUser(login.getId()).getHash(),
 					UserDatabase.findUser(login.getId()).getSalt(), login)) {
 				return Response.status(Status.OK).type(MediaType.APPLICATION_JSON)
-						.entity("Login Successful. Welcome User! " + login.getId()
-								+ " (Sometimes you need to send the request twice for it to actually work)")
+						.entity("Login Successful. Welcome User " + login.getId()
+								+ "! (Sometimes you need to send the Login request twice for it to actually work)")
 						.build();
 			} else {
-				return Response.status(Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON)
-						.entity("Password and ID don't match! :( (Sometimes you need to send the request twice for it to actually work)").build();
+				return Response.status(Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON).entity(
+						"Password and ID don't match! :( (Sometimes you need to send the Login request twice for it to actually work)")
+						.build();
 			}
 			// If the User doesn't exist
 		} else {
 			return Response.status(Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON).entity(
-					"Bad Request :( User probably doens't exist! (Sometimes you need to send the request twice for it to actually work)")
+					"Bad Request :( User probably doens't exist! (Sometimes you need to send the Login request twice for it to actually work)")
 					.build();
 		}
 	}

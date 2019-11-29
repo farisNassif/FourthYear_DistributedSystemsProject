@@ -20,11 +20,20 @@ public class User {
 	private String passwordHashed;
 	private String salt;
 
+	public User(int id, String name, String email, String password, String passwordHashed, String salt) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.passwordHashed = passwordHashed;
+		this.salt = salt;
+	}
+
+	// For returning without sensitive non encrypted password
 	public User(int id, String name, String email, String passwordHashed, String salt) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		// this.password = password;
 		this.passwordHashed = passwordHashed;
 		this.salt = salt;
 	}
@@ -34,7 +43,6 @@ public class User {
 	}
 
 	// JsonProperty required for serialization/deserialization by Jackson
-
 	@JsonProperty
 	public String getPassword() {
 		return password;

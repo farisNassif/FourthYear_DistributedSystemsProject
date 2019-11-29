@@ -3,6 +3,7 @@ package password_client;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Map.Entry;
@@ -33,11 +34,12 @@ import io.grpc.stub.StreamObserver;
  */
 public class PasswordClient {
 	Scanner scanner = new Scanner(System.in);
-	RequiredOutputs output = new RequiredOutputs();
 
 	private static final Logger logger = Logger.getLogger(PasswordClient.class.getName());
-	// Result for Validation. This is really bad but it's just for testing (TODO
-	// Change this from static!)
+	// Result for Validation. This is really bad I know and wouldn't be done in a
+	// real world situation, I'll talk a bit about it in my readme since i'm
+	// pretty sure it's the reason (or one of the reasons) for the double request
+	// validation issue
 	static boolean res;
 
 	private ManagedChannel channel;
@@ -64,25 +66,22 @@ public class PasswordClient {
 			public void onNext(HashResponse value) {
 
 				// Adding a new user with the hashedPW and Salt as additional attributes
-				// Issues with UTF-8, had to convert charset to iso-8859-1
+				// Issues with UTF-8, had to convert charset to iso-8859-1 since it wasn't
+				// allowing logins
 				// https://stackoverflow.com/questions/655891/converting-utf-8-to-iso-8859-1-in-java-how-to-keep-it-as-single-byte
+				// https://stackoverflow.com/questions/7048745/what-is-the-difference-between-utf-8-and-iso-8859-1
 				try {
 					User user;
-					user = new User(userv.getId(), userv.getName(), userv.getEmail(), 
+					user = new User(userv.getId(), userv.getName(), userv.getEmail(),
 							value.getHashedPassword().toString("ISO-8859-1"), value.getSalt().toString("ISO-8859-1"));
 
 					// Adding it to the Database (hashmap)
 					UserDatabase.addUser(userv.getId(), user);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
 
-				// Just prints to the Console for testing
-				try {
+					// Just prints to the Console for testing
 					logger.info(value.getSalt().toString("ISO-8859-1"));
 					logger.info(value.getHashedPassword().toString("ISO-8859-1"));
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -94,12 +93,12 @@ public class PasswordClient {
 
 			@Override
 			public void onCompleted() {
-			//	logger.info("Finished");
-			//	try {
-			//		shutdown();
-			//	} catch (InterruptedException e) {
-			//		e.printStackTrace();
-			//	}
+				// logger.info("Finished");
+				// try {
+				// shutdown();
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
 			}
 
 		};
@@ -113,10 +112,8 @@ public class PasswordClient {
 	}
 
 	// Logging a User in and checking if the ID/Password match
+	// Async, should be Sync
 	public boolean PasswordValidation(String passwordHash, String salt, UserLogin user) {
-		// Just a class for outputting within the onNext() method
-		final RequiredOutputs output = new RequiredOutputs();
-
 		// Need initialization on these
 		ByteString saltByteString = null;
 		ByteString hashByteString = null;
@@ -133,10 +130,10 @@ public class PasswordClient {
 			@Override
 			public void onNext(BoolValue value) {
 				if (value.getValue()) {
-					output.CheckMatch(1);
+					// Password/ID Match
 					res = true;
 				} else {
-					output.CheckMatch(2);
+					// Password/ID Don't Match
 					res = false;
 				}
 			}
@@ -150,9 +147,15 @@ public class PasswordClient {
 			public void onCompleted() {
 				// channel.shutdown();
 			}
+
 		};
+
+		// I've tried and tried to make the synchronous call work but I'm just going
+		// wrong everytime I try to do something, it's hanging even after I implement
+		// appropriate req/res
 		asyncPasswordService.validate(ValidateRequest.newBuilder().setPassword(user.getPassword())
 				.setHashedPassword(hashByteString).setSalt(saltByteString).build(), responseObserver);
+
 		return res;
 	}
 }

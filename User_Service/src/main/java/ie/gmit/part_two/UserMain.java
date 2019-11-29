@@ -14,6 +14,6 @@ public class UserMain extends Application<UserConfiguration> {
 		environment.jersey().register(resource); 
 		
 		final UserHealthCheck healthCheck = new UserHealthCheck();	
-		environment.healthChecks().register("i_hate_java_sometimes", healthCheck);
+		environment.healthChecks().register("userhealth", healthCheck);
 	}
 }

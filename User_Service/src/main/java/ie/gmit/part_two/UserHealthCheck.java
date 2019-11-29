@@ -8,5 +8,4 @@ public class UserHealthCheck extends HealthCheck {
 	protected Result check() throws Exception {
 		return Result.healthy();
 	}
-
 }
