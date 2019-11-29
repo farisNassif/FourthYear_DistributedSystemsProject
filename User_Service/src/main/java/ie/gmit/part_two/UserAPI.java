@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response.Status;
 
 import password_client.PasswordClient;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.validation.Validator;
 
 @Path("/")
@@ -26,7 +28,7 @@ public class UserAPI {
 
 	PasswordClient client = new PasswordClient("localhost", PORT);
 
-	// Returns all Users in the 'database'
+	// Returns all Users in the database
 	@GET
 	@Path("/users")
 	public Response getUsers() {
@@ -60,7 +62,7 @@ public class UserAPI {
 	@POST
 	@Path("/users")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response add(User newUser) {
+	public Response add(User newUser) throws UnsupportedEncodingException, InterruptedException {
 		// If theres not already a User with that ID
 		if (UserDatabase.findUser(newUser.getId()) == null) {
 			client.Generation(newUser);
@@ -105,14 +107,14 @@ public class UserAPI {
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_JSON)
 					.entity("There's no User with an ID of " + id + " :(").build();
 		}
-		// My attempt to try and address the issue described above the method
+		// Attempt to try and address the issue described above the method
 		// Seems to do the job based on my semi-minimal testing
 		else if (UserDatabase.checkForUser(updatedUser.getId()) == true) {
 			return Response.status(Status.CONFLICT).type(MediaType.APPLICATION_JSON).entity(
 					"There is already a User with an ID of " + updatedUser.getId() + ". There can't be duplicate ID's.")
 					.build();
 		} else {
-			// Otherwise send a 200 request and update the User
+			// Otherwise, Everything is good. Send a 200 request and update the User
 			UserDatabase.updateUser(id, updatedUser);
 			return Response.status(Status.OK).type(MediaType.APPLICATION_JSON)
 					.entity("User with ID " + id + " Successfuly Updated!").build();
@@ -135,7 +137,7 @@ public class UserAPI {
 								+ " (Sometimes you need to send the request twice for it to actually work)")
 						.build();
 			} else {
-				return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_JSON)
+				return Response.status(Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON)
 						.entity("Password and ID don't match! :(").build();
 			}
 			// If the User doesn't exist

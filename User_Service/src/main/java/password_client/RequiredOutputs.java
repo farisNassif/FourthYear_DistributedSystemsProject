@@ -19,16 +19,20 @@ public class RequiredOutputs {
 	 *              booleans)
 	 * @return a String that contains relevant information for the user
 	 */
-	public void CheckMatch(int match) {
+	public boolean CheckMatch(int match) {
+		boolean result = false;
 		String SecondOutput = "";
 		switch (match) {
 		case 1:
 			SecondOutput = "Password is correct!";
 			logger.info(SecondOutput);
+			result = true;
 			break;
 		case 2:
 			SecondOutput = "Does not match!";
 			logger.info(SecondOutput);
+			result = false;
 		}
+		return result;
 	}
 }

@@ -20,10 +20,10 @@ public class User {
 	private int id;
 	@NotBlank
 	private String name;
-	private ByteString passwordHashed;
-	private ByteString salt;
+	private String passwordHashed;
+	private String salt;
 
-	public User(int id, String name, String email, String password, ByteString passwordHashed, ByteString salt) {
+	public User(int id, String name, String email, String password, String passwordHashed, String salt) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -59,12 +59,12 @@ public class User {
 	}
 
 	@JsonProperty
-	public ByteString getHash() {
+	public String getHash() {
 		return passwordHashed;
 	}
 
 	@JsonProperty
-	public ByteString getSalt() {
+	public String getSalt() {
 		return salt;
 	}
 
