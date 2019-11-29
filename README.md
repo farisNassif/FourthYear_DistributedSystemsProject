@@ -36,7 +36,7 @@ When first testing my Part 2 with my Part 1 I found it wouldn't correctly integr
 
 ### Issues with the Project
 1. <b> Password Validation </b> is Asynchronous <br>
-After hours spent trying to get the Validation working Synchronously with appropriate requests I found myself running into issue after issue and had to spend time on other parts of the Project. In the future it will be definitely something I look at since I feel it was something small I was missing, I just couldn't find what.
+After hours spent trying to get the Validation working Synchronously with appropriate requests I found myself running into issue after issue and neglecting other parts of the Project. In the future it will be definitely something I look at since I feel it was something small I was missing, I just couldn't find what.
 
 2. <b> Password Validation </b> (Again), while it works it does require <i>two</i> Requests <br>
 I believe this is due to the way I have the `boolean Result` setup in the Client. The way I have the Boolean implemented isn't optimal and wouldn't be used in a real world scenario however for testing this project it saved me a lot of time at the cost of throwing this issue (bit of a contradiction). After several unsuccessful attempts to debug it, it remains in the final release. Again this is something I will look at in future since it's a bit of a hinderance that probably has a reasonable fix with some more debugging.
